@@ -211,6 +211,9 @@ class VehicleProxy:
             self.convert_to_base = vehicle.convert_to_base
         self.stop = vehicle.stop
         self.start = vehicle.start
+        self.get_position = vehicle.get_position
+        self.get_heading = vehicle.get_heading
+        self.get_vector = vehicle.get_vector
 
     def __getitem__(self, key: str) -> Any:
         return self._data[key]
