@@ -1,7 +1,7 @@
 ![supremacy](https://github.com/europython2023gametournament/supremacy/assets/39047984/fd147b1a-252b-4aed-b949-e2cb943f80dd)
 
 # Supremacy
-
+This is the copy of the awesome DMSC Summer School AI Gaming night repo from [Neil Vaytet](https://github.com/nvaytet), with some minor changes!
 ## TL;DR
 
 1. Create a repository for your AI from [the template](https://github.com/new?template_name=supremacy_ai&template_owner=nvaytet).
