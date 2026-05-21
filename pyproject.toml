@@ -22,15 +22,18 @@ dependencies = [
     "importlib-resources",
     "matplotlib",
     "numpy",
-    "pyglet >= 2.0",
+    "pyglet==2.0.18",
     "scipy"
 ]
+
+[project.scripts]
+supremacy = "supremacy.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["./src"]
 
 [tool.setuptools.package-data]
-supremacy = ["resources/*.png"]
+supremacy = ["resources/*.png", "config.toml"]
 
 [tool.yapf]
 based_on_style = "pep8"
