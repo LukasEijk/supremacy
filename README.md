@@ -12,46 +12,181 @@ If you have been given a game code, you can use the AI Game Launcher to install 
 2. Install the game through the GUI.
 3. Follow the instructions in the launcher to set up your environment and run Supremacy.
 
-### Manually
+### Manual setup (clean baseline)
 
-1. Download the game and bots
+The setup below is aligned with `SETUP.md` and `PREPARE.md`.
 
-```
-mkdir supremacy
-cd supremacy
-git clone https://github.com/nvaytet/supremacy.git
-git clone https://github.com/<USERNAME>/<MYPLAYERNAME>_ai.git
-git clone https://github.com/nvaytet/supremacy_ai.git
-```
+Expected workspace layout:
 
-2. Create a Python environment
+- `~/repos/supremacy/supremacy` (this repo, game engine)
+- `~/repos/supremacy/supremacy_ai` (template AI repo, source folder)
+- `~/repos/supremacy/your_bot` (your own bot package or source folder)
 
-#### conda
+1. Pre-event: install tools
 
-```
-conda create -n <NAME> -c conda-forge python=3.11.* pip
-conda activate <NAME>
-python -m pip install -e supremacy -e <MYPLAYERNAME>_ai -e supremacy_ai
-```
+Install:
 
-#### venv
+- `git`
+- Python `3.11`
+- one environment workflow: `uv` (recommended), `conda`, or `venv`
 
-```
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-python -m pip install --upgrade pip
-python -m pip install -e supremacy -e <MYPLAYERNAME>_ai -e supremacy_ai
+Quick checks:
+
+```bash
+git --version
+python3 --version
+conda --version
+uv --version
 ```
 
-3. Configure the game byt pointing `supremacy/config.toml` at your player AI and any number of template AIs.
+You only need one of `uv` or `conda`.
 
-4. Run the game
+2. Create and activate your environment
 
+#### Option A: uv
+
+```bash
+mkdir -p ~/repos/supremacy
+cd ~/repos/supremacy
+uv venv --python 3.11 .venv
+source .venv/bin/activate
+uv pip install -U pip setuptools wheel
 ```
+
+#### Option B: conda
+
+```bash
+conda create -n vkb-supremacy -c conda-forge python=3.11 pip
+conda activate vkb-supremacy
+python -m pip install -U pip setuptools wheel
+```
+
+#### Option C: plain venv
+
+```bash
+mkdir -p ~/repos/supremacy
+cd ~/repos/supremacy
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U pip setuptools wheel
+```
+
+3. Event day: clone repositories
+
+```bash
+mkdir -p ~/repos/supremacy
+cd ~/repos/supremacy
+git clone <EVENT_REPO_URL_MAIN>
+git clone <EVENT_REPO_URL_AI_TEMPLATE>
+```
+
+4. Install the game package from workspace root
+
+```bash
+cd ~/repos/supremacy
+python -m pip install -U pip setuptools wheel
+python -m pip install -e ./supremacy
+```
+
+If you use `uv`, the install step can also be:
+
+```bash
+uv pip install -e ./supremacy
+```
+
+Important:
+
+- Do not run `pip install -e ./supremacy_ai` unless it is explicitly turned into a package.
+- In the standard event layout, `supremacy_ai` is a source folder and is imported via workspace path.
+
+5. Make local bot modules importable
+
+```bash
+export PYTHONPATH=~/repos/supremacy
+```
+
+Optional persistence for zsh:
+
+```bash
+echo 'export PYTHONPATH=~/repos/supremacy' >> ~/.zshrc
+```
+
+6. Verify setup
+
+```bash
+cd ~/repos/supremacy
+python -c "import supremacy; import supremacy_ai; import numpy; print('setup ok')"
 supremacy supremacy/config.toml
 ```
 
-5. Send a link to your repository to your game master.
+If both commands run, your setup is correct.
+
+7. Add your own bot and configure players
+
+Create `~/repos/supremacy/your_bot` with at least:
+
+- `your_bot/__init__.py` (exports `CREATOR` and `PlayerAi`)
+- `your_bot/my_ai.py`
+
+Minimal `your_bot/__init__.py`:
+
+```python
+from .my_ai import CREATOR, PlayerAi
+
+__all__ = ["CREATOR", "PlayerAi"]
+```
+
+If `your_bot` is a proper Python package (`pyproject.toml` or `setup.py` exists), install it:
+
+```bash
+python -m pip install -e ./your_bot
+```
+
+If `your_bot` is a source folder only, keep running commands from `~/repos/supremacy` with `PYTHONPATH` set as above.
+
+Example player config in `supremacy/config.toml`:
+
+```toml
+[[player]]
+package = "your_bot"
+
+[[player]]
+package = "supremacy_ai"
+overrides = { name = "PracticeBot", color = "#2fb0ac" }
+```
+
+8. Run modes
+
+Normal run:
+
+```bash
+supremacy supremacy/config.toml
+```
+
+Tournament-style run:
+
+```bash
+supremacy supremacy/config-tournament.toml
+```
+
+Typical tournament flags in `supremacy/config-tournament.toml`:
+
+- `test = false`
+- `safe = true`
+- `fullscreen = true`
+- `super-crystal = true` (only if your event setup expects it)
+
+9. Troubleshooting
+
+Quick import checks:
+
+```bash
+python -c "import supremacy; import supremacy_ai; print('imports ok')"
+python -c "import your_bot; print('your_bot ok')"
+```
+
+- If `supremacy` is not found, reactivate your environment and rerun `python -m pip install -e ./supremacy` from `~/repos/supremacy`.
+- If `import supremacy_ai` or `import your_bot` fails for source-folder bots, check that your current directory is `~/repos/supremacy` and that `PYTHONPATH` is set correctly.
 
 ## Game preview
 

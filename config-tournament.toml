@@ -18,5 +18,15 @@ safe = true
 super-crystal = true
 
 # --- Select bots for the game ---
+[[player]]
+package = "supremacy_ai"
+overrides = { name = "SimpleAI-1", color = "#2fb0ac" }
+
+[[player]]
+package = "supremacy_ai"
+overrides = { name = "SimpleAI-2", color = "#eda3bc" }
+
+# Optional: add your own bot as a third player.
+# Uncomment both lines and replace `your_bot` with your package name.
 # [[player]]
-# package = ""
+# package = "your_bot"
