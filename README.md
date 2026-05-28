@@ -15,13 +15,13 @@ If you have been given a game code, you can use the AI Game Launcher to install 
 ### Manual setup (clean baseline)
 
 Expected workspace layout:
-
+```bash
 mkdir supremacy
 cd supremacy
-git clone https://github.com/nvaytet/supremacy.git
+git clone https://github.com/LukasEijk/supremacy.git
 git clone https://github.com/<USERNAME>/<MYPLAYERNAME>_ai.git
 git clone https://github.com/nvaytet/supremacy_ai.git
-
+```
 - `~/repos/supremacy/supremacy` (this repo, game engine)
 - `~/repos/supremacy/supremacy_ai` (template AI repo, source folder)
 - `~/repos/supremacy/your_bot` (your own bot package or source folder)
