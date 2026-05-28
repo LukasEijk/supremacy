@@ -14,8 +14,6 @@ If you have been given a game code, you can use the AI Game Launcher to install 
 
 ### Manual setup (clean baseline)
 
-The setup below is aligned with `SETUP.md` and `PREPARE.md`.
-
 Expected workspace layout:
 
 - `~/repos/supremacy/supremacy` (this repo, game engine)
