@@ -22,6 +22,9 @@ git clone https://github.com/LukasEijk/supremacy.git
 git clone https://github.com/<USERNAME>/<MYPLAYERNAME>_ai.git
 git clone https://github.com/nvaytet/supremacy_ai.git
 ```
+
+Create a repository for your AI from the [the template](https://github.com/new?template_name=supremacy_ai&template_owner=nvaytet)
+
 - `~/repos/supremacy/supremacy` (this repo, game engine)
 - `~/repos/supremacy/supremacy_ai` (template AI repo, source folder)
 - `~/repos/supremacy/your_bot` (your own bot package or source folder)
